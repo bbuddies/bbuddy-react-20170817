@@ -11,3 +11,8 @@ export function goToAddAccount(){
     dispatch(push('/accounts/add'))
   }
 }
+export function goToAddBudget() {
+  return (dispatch, getState) => {
+    dispatch(push('/budgets/add'))
+  }
+}
