@@ -34,7 +34,6 @@ module.exports = function (dev) {
       contentBase: './www/',  //Relative directory for base of server
       hot: dev,
       inline: true,
-      port: 8100        //Port Number
     },
     output: {
       path: path.join(__dirname, 'dist'),

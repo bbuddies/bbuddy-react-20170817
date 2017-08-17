@@ -55,10 +55,11 @@ gulp.task("clean:coverage", () => {
 })
 
 gulp.task("server", () => {
+  let port = dev ? 8100 : 9100
   new WebpackDevServer(webpack(webpackConfig(dev)))
-    .listen(8100, "localhost", err => {
+    .listen(port, "localhost", err => {
       if (err) throw new gutil.PluginError("webpack-dev-server", err)
-      gutil.log("[webpack-dev-server]", "http://localhost:8100/")
+      gutil.log("[webpack-dev-server]", `http://localhost:${port}/`)
     })
 });
 
