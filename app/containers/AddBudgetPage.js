@@ -5,13 +5,6 @@ import present from '../presenters/addBudgetPagePresenter'
 
 @present
 export default class AddBudgetPage extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      errorTextForMonth: '',
-      errorTextForAmount: ''
-    }
-  }
   save(){
     // console.log(this.props.test)
     let month = this.refs.month.getValue()
@@ -23,7 +16,7 @@ export default class AddBudgetPage extends React.Component {
       <Card>
         <CardTitle title='Add Budget'/>
         <CardText>
-          <TextField fullWidth={true} id="month" ref="month" hintText="Month" floatingLabelText="Month" autoFocus errorText={this.state.errorTextForMonth} />
+          <TextField fullWidth={true} id="month" ref="month" hintText="Month" floatingLabelText="Month" autoFocus errorText={this.props.errorTextForMonth} />
           <TextField fullWidth={true} id="amount" ref="amount" hintText="amount" floatingLabelText="Amount" />
         </CardText>
         <CardActions>

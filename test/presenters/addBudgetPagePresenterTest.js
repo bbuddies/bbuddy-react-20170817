@@ -1,6 +1,6 @@
 import {AddBudgetPagePresenter} from '../../app/presenters/addBudgetPagePresenter'
 
-describe('AddBudgetPAgePresenter', () => {
+describe('AddBudgetPagePresenter', () => {
   context('Save budget', () => {
     let presenter, addBudgetStub, goBackSpy
     beforeEach(() => {
@@ -40,8 +40,9 @@ describe('AddBudgetPAgePresenter', () => {
   })
 
   context('map props', () => {
-    it('from state with nothing', () => {
-      AddBudgetPagePresenter.mapStateToProps().should.be.eql({})
+    it('from state with budgets', () => {
+      
+      AddBudgetPagePresenter.mapStateToProps().should.include.keys('budgets')
     })
     it('with account & navigation actions', () => {
       AddBudgetPagePresenter.mapDispatchToProps().should.include.keys('addBudget', 'goBack')
