@@ -18,11 +18,11 @@ export class AddBudgetPagePresenter {
     }
   }
   addBudget(budget){
-    const verfiyMonthResult = this.verfiyMonth(budget.month)
+    // const verfiyMonthResult = this.verfiyMonth(budget.month)
     // const verfiyAmountResult = this.verfiyAmount(budget.amount)
-    if(verfiyMonthResult.valid){
+    // if(verfiyMonthResult.valid){
       this.props.addBudget(budget, () => {this.props.goBack()})
-    }
+    // }
   }
 
   verfiyMonth(month){
