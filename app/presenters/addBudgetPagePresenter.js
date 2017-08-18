@@ -1,7 +1,6 @@
 import present from './presenter'
 import {bindActionCreators} from 'redux'
 import merge from 'lodash/merge'
-import isNumber from 'lodash/isNumber'
 import toNumber from 'lodash/toNumber'
 import _ from 'lodash'
 import * as BudgetActions from '../actions/budget'
@@ -20,16 +19,14 @@ export class AddBudgetPagePresenter {
 
   addBudget(budget) {
     let validateResult = this.validate(budget);
-    if (validateResult.valid) {
-      this.props.addBudget(budget, () => {
-        this.props.goBack()
-      })
-    } else {
+    if (!validateResult.valid) {
       this.setState({
         errorTextForMonth: validateResult.message.month,
         errorTextForAmount: validateResult.message.amount
       })
+      return
     }
+    this.props.addBudget(budget, () => this.props.goBack())
   }
 
   validate(budget) {
@@ -56,5 +53,38 @@ export class AddBudgetPagePresenter {
     return bindActionCreators(merge({}, BudgetActions, NavigationActions), dispatch)
   }
 }
+
+const
+  isEmpty = value => !value.length
+const
+  invalidFormat = regex => value => !regex.test(value)
+const
+  isNegative = value => value <= 0
+const
+  emptyValidation = (field, chinese) =>
+    [_.conforms({[field]: isEmpty}), _.constant({[field]: `没有填写${chinese}`})]
+const
+  formatValidation = (field, regex, chinese) =>
+    [_.conforms({[field]: invalidFormat(regex)}), _.constant({[field]: `${chinese}的格式不正确`})]
+const
+  numberValidation = (field, chinese) =>
+    [_.conforms({[field]: invalidFormat(/\d+/)}), _.constant({[field]: `填写的不是数字`})]
+const
+  postiveValidation = (field, chinese) =>
+    [_.conforms({[field]: isNegative}), _.constant({[field]: `${chinese}数字不能小于或等于0`})]
+const
+  valid = () =>
+    [_.stubTrue, _.constant('')]
+
+
+const
+  validateBudget = _.cond([
+    emptyValidation('month', '月份'),
+    formatValidation('month', /^\d{4}-\d{2}$/, '月份'),
+    emptyValidation('amount', '金额'),
+    numberValidation('amount', '金额'),
+    postiveValidation('amount', '金额'),
+    valid()
+  ])
 
 export default present(AddBudgetPagePresenter)
