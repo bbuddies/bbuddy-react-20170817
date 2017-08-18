@@ -23,5 +23,5 @@ export function modifyBudget(budget, success){
         success()
       }
     })
-  } 
+  }
 }

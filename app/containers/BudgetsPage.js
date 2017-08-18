@@ -21,7 +21,7 @@ export default class BudgetsPage extends React.Component {
             <TextField fullWidth={true} id="endAt" ref="endAt" hintText="EndAt" floatingLabelText="EndAt" />
             <div>
               <span>Total of amount in selected time period :</span>
-              <span id="result">1000</span>
+              <span id="result">{this.props.calcResult}</span>
             </div>
           </CardText>
           <CardActions>

@@ -2,7 +2,6 @@ import present from './presenter'
 import {bindActionCreators} from 'redux'
 import merge from 'lodash/merge'
 import values from 'lodash/values'
-import _ from 'lodash'
 import moment from 'moment'
 import * as BudgetActions from '../actions/budget'
 import * as NavigationActions from '../actions/navigation'
@@ -22,17 +21,45 @@ export class BudgetsPagePresenter {
     this.props.loadBudgets()
   }
 
-  calcBudgets({startAt, endAt} = {}) {
-    
-    if(!startAt && !endAt)
-      return false
-  }
+  calcBudgets({startAt, endAt}) {
+    let total = 0
+    const startYear = moment(startAt).years()
+    const startMonth = moment(startAt).months() + 1
+    const startDay = moment(startAt).get('date')
+    const endYear = moment(endAt).years()
+    const endMonth = moment(endAt).months()
+    const endDay = moment(endAt).get('date')
+    this.props.budgets.forEach(budget => {
+      if (moment(startAt).isSame(moment(budget.month),'year') && moment(startAt).isSame(moment(budget.month),'month')) {
+// console.log('sum startAt');
+        const daysOfBudget = moment(budget.month).daysInMonth()
+        const oneDayBudget = budget.amount / daysOfBudget
 
-  findMatchedBudgets({startAt, endAt}) {
-    return _.filter(this.props.budgets, (budget) => {
-      console.log(budget.month)
-      return moment(budget.month, 'YYYY-MM').isBetween(startAt, endAt)
+        let days = daysOfBudget
+        if(moment(startAt).isSame(moment(endAt),'month')) {
+          days = endDay
+        }
+        // console.log(daysOfBudget,'-',startDay,'=',daysOfBudget - startDay);
+        // console.log(budget.amount,'/',daysOfBudget,'=',oneDayBudget);
+        // console.log(oneDayBudget,'*',days - startDay+1,'=',oneDayBudget * (days - startDay+1));
+        total += oneDayBudget * (days - startDay + 1)
+      }
+      if (moment(endAt).isSame(moment(budget.month),'year')
+          && moment(endAt).isSame(moment(budget.month),'month')
+          && !moment(startAt).isSame(moment(endAt),'month')) {
+        console.log('sum endAt');
+        const daysOfBudget = moment(budget.month).daysInMonth()
+        const oneDayBudget = budget.amount / daysOfBudget
+        // console.log(endDay,'=');
+        // console.log(budget.amount,'/',daysOfBudget,'=',oneDayBudget);
+        // console.log(oneDayBudget,'*',endDay,'=',oneDayBudget * endDay);
+        total += oneDayBudget * endDay
+      }
+      if (moment(budget.month).isBetween(startAt, endAt,'month')){
+        total += budget.amount
+      }
     })
+    this.setState({calcResult: Math.ceil(total)})
   }
 
   static mapStateToProps(state) {
