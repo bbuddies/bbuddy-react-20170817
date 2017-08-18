@@ -10,6 +10,7 @@ export default class AddAccountPage extends React.Component {
     let amount = this.refs.amount.getValue()
     this.props.addBudget({month, amount})
   }
+
   render() {
     return (
       <Card>
