@@ -13,7 +13,9 @@ export class BudgetsPagePresenter {
 
   getProps() {
     return {
-      calcBudgets: timePeriod => this.calcBudgets(timePeriod)
+      calcBudgets: timePeriod => {
+        this.setState({calcResult: this.calcBudgets(timePeriod)})
+      }
     }
   }
 
@@ -51,7 +53,7 @@ export class BudgetsPagePresenter {
         total += budget.amount
       }
     })
-    this.setState({calcResult: Math.ceil(total)})
+    return Math.ceil(total)
   }
 
   static mapStateToProps(state) {
