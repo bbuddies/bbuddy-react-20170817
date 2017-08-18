@@ -26,7 +26,19 @@ export class AddBudgetPagePresenter {
       })
       return
     }
-    this.props.addBudget(budget, () => this.props.goBack())
+    
+    let existsBudget = _.find(this.props.budgets, {month: budget.month})
+    let action = this.props.addBudget
+    if(existsBudget) {
+      budget.id = existsBudget.id
+      action = this.props.modifyBudget
+    }
+
+    action(budget, () => {
+      this.props.goBack()
+    })
+
+    // action(budget, () => this.props.goBack())
   }
 
   validate(budget) {
@@ -46,7 +58,7 @@ export class AddBudgetPagePresenter {
   ]
 
   static mapStateToProps(state) {
-    return {}
+    return {budgets: state.entities.budgets}
   }
 
   static mapDispatchToProps(dispatch) {
