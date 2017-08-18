@@ -20,14 +20,15 @@ export default class BudgetsPage extends React.Component {
             <TextField fullWidth={true} id="startAt" ref="startAt" hintText="StartAt" floatingLabelText="StartAt" autoFocus />
             <TextField fullWidth={true} id="endAt" ref="endAt" hintText="EndAt" floatingLabelText="EndAt" />
             <div>
-              <span>Total in selected area:</span>
+              <span>Total of amount in selected time period :</span>
               <span id="result">1000</span>
             </div>
           </CardText>
           <CardActions>
-            <RaisedButton label='Calc' primary={true} onTouchTap={() => this.calcBudgets()} />
+            <RaisedButton id='calc' label='Calc' primary={true} onTouchTap={() => this.calcBudgets()} />
           </CardActions>
         </Card>
+        <br />
         <Card>
           <CardTitle title='Budgets'/>
           <CardText>
