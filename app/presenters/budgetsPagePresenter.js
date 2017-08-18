@@ -31,7 +31,6 @@ export class BudgetsPagePresenter {
     const endDay = moment(endAt).get('date')
     this.props.budgets.forEach(budget => {
       if (moment(startAt).isSame(moment(budget.month),'year') && moment(startAt).isSame(moment(budget.month),'month')) {
-// console.log('sum startAt');
         const daysOfBudget = moment(budget.month).daysInMonth()
         const oneDayBudget = budget.amount / daysOfBudget
 
@@ -39,20 +38,13 @@ export class BudgetsPagePresenter {
         if(moment(startAt).isSame(moment(endAt),'month')) {
           days = endDay
         }
-        // console.log(daysOfBudget,'-',startDay,'=',daysOfBudget - startDay);
-        // console.log(budget.amount,'/',daysOfBudget,'=',oneDayBudget);
-        // console.log(oneDayBudget,'*',days - startDay+1,'=',oneDayBudget * (days - startDay+1));
         total += oneDayBudget * (days - startDay + 1)
       }
       if (moment(endAt).isSame(moment(budget.month),'year')
           && moment(endAt).isSame(moment(budget.month),'month')
           && !moment(startAt).isSame(moment(endAt),'month')) {
-        console.log('sum endAt');
         const daysOfBudget = moment(budget.month).daysInMonth()
         const oneDayBudget = budget.amount / daysOfBudget
-        // console.log(endDay,'=');
-        // console.log(budget.amount,'/',daysOfBudget,'=',oneDayBudget);
-        // console.log(oneDayBudget,'*',endDay,'=',oneDayBudget * endDay);
         total += oneDayBudget * endDay
       }
       if (moment(budget.month).isBetween(startAt, endAt,'month')){
