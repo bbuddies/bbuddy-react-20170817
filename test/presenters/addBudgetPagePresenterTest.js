@@ -41,8 +41,8 @@ describe('AddBudgetPagePresenter', () => {
 
   context('map props', () => {
     it('from state with budgets', () => {
-      
-      AddBudgetPagePresenter.mapStateToProps().should.include.keys('budgets')
+      let state = {entities: {budgets:[]}}
+      AddBudgetPagePresenter.mapStateToProps(state).should.include.keys('budgets')
     })
     it('with account & navigation actions', () => {
       AddBudgetPagePresenter.mapDispatchToProps().should.include.keys('addBudget', 'goBack')
