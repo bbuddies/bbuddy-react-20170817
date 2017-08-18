@@ -2,31 +2,40 @@ import {AddBudgetPagePresenter} from '../../app/presenters/addBudgetPagePresente
 
 describe('AddBudgetPAgePresenter', () => {
   context('Save budget', () => {
-    let addBudgetStub, goBackSpy
+    let presenter, addBudgetStub, goBackSpy
     beforeEach(() => {
       let props = {addBudget: () => {}, goBack: () => {}}
       addBudgetStub = sinon.stub(props, 'addBudget').yields()
       goBackSpy = sinon.spy(props, 'goBack')
-      let presenter = new AddBudgetPagePresenter(props)
-      presenter.getProps().addBudget({month: '2017-08', balance: '1000'})
+      presenter = new AddBudgetPagePresenter(props)
+      presenter.setState = sinon.spy()
+      presenter.getProps().addBudget({month: '2017-08', amount: '1000'})
     })
     it('save by action', () => {
-      addBudgetStub.should.be.calledWith({month: '2017-08', balance: '1000'}, sinon.match.any)
+      addBudgetStub.should.be.calledWith({month: '2017-08', amount: '1000'}, sinon.match.any)
     })
     it('go back after saving', () => {
       goBackSpy.should.be.called
     })
-    it('2017-12 should be valid', () => {
-      let presenter = new AddBudgetPagePresenter()
-      presenter.getProps().verfiyMonth('2017-12').valid.should.be.true
-    })
     it('2017-121 should be invalid', () => {
-      let presenter = new AddBudgetPagePresenter()
-      presenter.getProps().verfiyMonth('2017-121').msg.should.equal('月份的格式不正确')
+      presenter.getProps().addBudget({month: '2017-121', amount: '1000'})
+      presenter.setState.should.be.calledWith(sinon.match.has('errorTextForMonth', '月份的格式不正确'))
     })
     it('empty string should be invalid', () => {
-      let presenter = new AddBudgetPagePresenter()
-      presenter.getProps().verfiyMonth('').msg.should.equal('没有填写月份')
+      presenter.getProps().addBudget({month: '', amount: '1000'})
+      presenter.setState.should.be.calledWith(sinon.match.has('errorTextForMonth', '没有填写月份'))
+    })
+    it('empty amount should be invalid', () => {
+      presenter.getProps().addBudget({month: '2017-12', amount: ''})
+      presenter.setState.should.be.calledWith(sinon.match.has('errorTextForAmount', '没有填写金额'))
+    })
+    it('amount should be number', () => {
+      presenter.getProps().addBudget({month: '2017-12', amount: 'not number'})
+      presenter.setState.should.be.calledWith(sinon.match.has('errorTextForAmount', '填写的不是数字'))
+    })
+    it('amount should be greater than 0', () => {
+      presenter.getProps().addBudget({month: '2017-12', amount: '-1'})
+      presenter.setState.should.be.calledWith(sinon.match.has('errorTextForAmount', '金额数字不能小于或等于0'))
     })
   })
 

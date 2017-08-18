@@ -16,12 +16,7 @@ export default class AddBudgetPage extends React.Component {
     // console.log(this.props.test)
     let month = this.refs.month.getValue()
     let amount = this.refs.amount.getValue()
-    let verifyMonthResult = this.props.verfiyMonth(month)
-    if(verifyMonthResult.valid){
-      this.props.addBudget({month, amount})
-    }else{
-      this.setState({errorTextForMonth: verifyMonthResult.msg})
-    }
+    this.props.addBudget({month, amount})
   }
   render() {
     return (
