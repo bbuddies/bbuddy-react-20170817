@@ -27,11 +27,11 @@ export class BudgetsPagePresenter {
     let total = 0
     const startDay = moment(startAt).get('date')
     const endDay = moment(endAt).get('date')
-    this.props.budgets.forEach(budget => {
+    const { budgets } = this.props
+    budgets && budgets.forEach(budget => {
       if (moment(startAt).isSame(moment(budget.month),'year') && moment(startAt).isSame(moment(budget.month),'month')) {
         const daysOfBudget = moment(budget.month).daysInMonth()
         const oneDayBudget = budget.amount / daysOfBudget
-
         let days = daysOfBudget
         if(moment(startAt).isSame(moment(endAt),'month')) {
           days = endDay
