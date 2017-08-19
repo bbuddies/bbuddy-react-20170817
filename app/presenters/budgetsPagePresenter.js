@@ -53,7 +53,7 @@ export class BudgetsPagePresenter {
         total += budget.amount
       }
     })
-    return Math.ceil(total)
+    return total.toFixed(2)
   }
 
   static mapStateToProps(state) {
