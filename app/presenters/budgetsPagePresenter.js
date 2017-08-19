@@ -25,11 +25,12 @@ export class BudgetsPagePresenter {
 
   calcBudgets({startAt, endAt}) {
     let total = 0
-    const startYear = moment(startAt).years()
-    const startMonth = moment(startAt).months() + 1
+    const startYear = moment(startAt).year()
+console.log(startYear,'=[=[]]');
+    const startMonth = moment(startAt).month() + 1
     const startDay = moment(startAt).get('date')
-    const endYear = moment(endAt).years()
-    const endMonth = moment(endAt).months()
+    const endYear = moment(endAt).year()
+    const endMonth = moment(endAt).month()
     const endDay = moment(endAt).get('date')
     this.props.budgets.forEach(budget => {
       if (moment(startAt).isSame(moment(budget.month),'year') && moment(startAt).isSame(moment(budget.month),'month')) {
