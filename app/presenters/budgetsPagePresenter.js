@@ -26,7 +26,6 @@ export class BudgetsPagePresenter {
   calcBudgets({startAt, endAt}) {
     let total = 0
     const startYear = moment(startAt).year()
-console.log(startYear,'=[=[]]');
     const startMonth = moment(startAt).month() + 1
     const startDay = moment(startAt).get('date')
     const endYear = moment(endAt).year()
