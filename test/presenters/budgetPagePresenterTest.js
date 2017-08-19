@@ -34,5 +34,11 @@ describe('BudgetPagePresenter', () => {
         it('budgets between 2016-05-01 and 2016-10-15 should be 7700.00', () => {
             presenter.calcBudgets({startAt: '2016-05-01', endAt: '2016-10-15'}).should.be.equal('7700.00')
         })
+        it('budgets between 2008-01-01 and 2008-02-01 should be 100.00', () => {
+            presenter.calcBudgets({startAt: '2008-01-01', endAt: '2008-02-01'}).should.be.equal('100.00')
+        })
+        it('budgets between 2008-02-01 and 2008-02-01 should be 100.00', () => {
+            presenter.calcBudgets({startAt: '2008-02-01', endAt: '2008-02-01'}).should.be.equal('100.00')
+        })
     })
 })
